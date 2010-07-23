@@ -3,7 +3,7 @@ require 'isaac'
 require 'bot_config'
 
 on :connect do
-  join "#rmu-general rmu1337"
+  join "#rmu-general #{RMU_SEEKRIT}"
 end
 
 on :channel, /^!site$/ do
