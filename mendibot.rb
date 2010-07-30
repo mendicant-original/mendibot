@@ -30,8 +30,7 @@ on :channel do
     :recorded_at => DateTime.now
   }.to_json
   
-  RestClient.post("http://rmu.heroku.com/chat/messages/", 
-    :message => msg )
+  service["/chat/messages"].post(:message => msg)
   
   puts msg
 end
