@@ -23,17 +23,17 @@ on :channel, /^!topic$/ do
 end
 
 on :channel do
-  message = { 
+  msg = { 
     :channel     => channel, 
-    :handle      => user, 
+    :handle      => nick, 
     :body        => message, 
     :recorded_at => DateTime.now
   }.to_json
   
   RestClient.post("http://rmu.heroku.com/chat/messages/", 
-    :message => message )
+    :message => msg )
   
-  puts message
+  puts msg
 end
 
 on :private, /^site$/ do
