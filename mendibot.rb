@@ -1,6 +1,9 @@
 require 'rubygems'
 require 'isaac'
 require 'bot_config'
+require 'rest-client'
+require 'json'
+require 'date'
 
 on :connect do
   join "#rmu-general #{RMU_SEEKRIT}"
@@ -20,7 +23,17 @@ on :channel, /^!topic$/ do
 end
 
 on :channel do
-  msg channel, [nick, message, user, host, Time.now.to_s].inspect
+  message = { 
+    :channel     => channel, 
+    :handle      => user, 
+    :body        => message, 
+    :recorded_at => DateTime.now}.to_json
+  }
+  
+  RestClient.post("http://rmu.heroku.com/chat/messages/", 
+    :message => message )
+  
+  puts message
 end
 
 on :private, /^site$/ do
