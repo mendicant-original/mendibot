@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'isaac'
-require 'bot_config'
+require "#{File.dirname(__FILE__)}/bot_config"
 require 'rest-client'
 require 'json'
 require 'date'
@@ -30,9 +30,7 @@ on :channel do
     :recorded_at => DateTime.now
   }.to_json
   
-  service["/chat/messages"].post(:message => msg)
-  
-  puts msg
+  service["/chat/messages.json"].post(:message => msg)
 end
 
 on :private, /^site$/ do
