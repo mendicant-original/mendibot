@@ -5,6 +5,8 @@ require 'rest-client'
 require 'json'
 require 'date'
 
+$topics = {}
+
 on :connect do
   join "#rmu-general #{RMU_SEEKRIT}"
 end
@@ -14,12 +16,17 @@ on :channel, /^!site$/ do
 end
 
 on :channel, /^!topic (.*)/ do
-  $topic = match[0]
-  msg channel, "The topic is now #$topic"
+  $topics[channel] = match[0]
+  msg channel, "The topic is now #{$topics[channel]}"
 end
 
 on :channel, /^!topic$/ do
-  msg channel, "The topic is currently #$topic"
+  topic = $topics[channel]
+  if topic
+    msg channel, "The topic is currently #{$topics[channel]}"
+  else
+    msg channel, "The topic is not currently set"
+  end
 end
 
 on :channel do
@@ -27,12 +34,9 @@ on :channel do
     :channel     => channel, 
     :handle      => nick, 
     :body        => message, 
-    :recorded_at => DateTime.now
+    :recorded_at => DateTime.now,
+    :topic       => $topics[channel]
   }.to_json
   
   service["/chat/messages.json"].post(:message => msg)
-end
-
-on :private, /^site$/ do
-  msg nick, "http://university.rubymendicant.com"
 end
