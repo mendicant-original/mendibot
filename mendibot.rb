@@ -7,10 +7,6 @@ require 'date'
 
 $topics = {}
 
-on :connect do
-  join "#rmu-general #{RMU_SEEKRIT}"
-end
-
 on :channel, /^!site$/ do
   msg channel, "http://university.rubymendicant.com"
 end
