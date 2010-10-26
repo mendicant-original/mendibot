@@ -52,7 +52,7 @@ on :channel do
   msg = { 
     :channel     => channel, 
     :handle      => nick, 
-    :body        => message, 
+    :body        => message.encode("UTF-8", :invalid => :replace, :undef => :replace), 
     :recorded_at => DateTime.now,
     :topic       => $topics[channel]
   }.to_json
