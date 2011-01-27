@@ -26,6 +26,19 @@ on :channel, /^!topic$/ do
   end
 end
 
+on :channel, /^!topic_site$/ do
+  topic = $topics[channel]
+  unless topic
+    msg channel, "There is no topic under discussion at the moment"
+  else
+    resp = service["/chat/discussion/url.json"].get :params => {
+      :channel => channel,
+      :topic => topic
+    }
+    msg channel, resp.body
+  end
+end
+
 on :channel, /^!end_discussion$/ do
   old_topic = $topics[channel]
   $topics[channel] = nil
