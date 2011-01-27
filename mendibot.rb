@@ -12,9 +12,24 @@ on :channel, /^!site$/ do
   msg channel, "http://university.rubymendicant.com"
 end
 
-on :channel, /^!topic (.*)/ do
+on :channel, /^!start_discussion (.*)/ do
   $topics[channel] = match[0]
-  msg channel, "The topic is now #{$topics[channel]}"
+  msg channel, "The topic under discussion is now: #{$topics[channel]}"
+end
+
+on :channel, /^!topic$/ do
+  topic = $topics[channel]
+  if topic
+    msg channel, "The topic under discussion is currently #{$topics[channel]}"
+  else
+    msg channel, "There is no topic under discussion at the moment"
+  end
+end
+
+on :channel, /^!end_discussion$/ do
+  old_topic = $topics[channel]
+  $topics[channel] = nil
+  msg channel, "The discussion about #{old_topic} has now ended"
 end
 
 on :channel, /^!time (.*)/ do
@@ -37,15 +52,6 @@ on :channel, /^!time (.*)/ do
   response = "Invalid time zone or format." if response.empty?
 
   msg channel, response
-end
-
-on :channel, /^!topic$/ do
-  topic = $topics[channel]
-  if topic
-    msg channel, "The topic is currently #{$topics[channel]}"
-  else
-    msg channel, "The topic is not currently set"
-  end
 end
 
 on :channel do
