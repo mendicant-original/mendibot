@@ -36,11 +36,19 @@ on :channel, /^!topic_site$/ do
   unless topic
     msg channel, "There is no topic under discussion at the moment"
   else
-    resp = service["/chat/discussion/url.json"].get :params => {
-      :channel => channel,
-      :topic => topic
-    }
-    msg channel, resp.body
+    begin
+      resp = service["/chat/discussion/url.json"].get :params => {
+        :channel => channel,
+        :topic => topic
+      }
+      body = resp.body
+    rescue RestClient::ResourceNotFound => e
+      body = "Error: #{e.response.body}"
+    rescue RestClient::InternalServerError => e
+      body = "Internal Server Error returned from Rails app"
+    end
+
+    msg channel, body
   end
 end
 
