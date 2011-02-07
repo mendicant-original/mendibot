@@ -5,6 +5,7 @@ require 'rest-client'
 require 'json'
 require 'date'
 require 'time'
+require "#{File.dirname(__FILE__)}/lib/ip2geo"
 
 $topics = {}
 
@@ -52,6 +53,14 @@ on :channel, /^!time (.*)/ do
   response = "Invalid time zone or format." if response.empty?
 
   msg channel, response
+end
+
+on :channel, /^!ip2geo help$/ do
+  msg channel, "#{nick}: <!ip2geo (ip address)> gives a list of geographic attributes associated with the ip address"
+end
+
+on :channel, /^!ip2geo (\d{1,3}\.\d{1,3}\.\d{1,3}.\d{1,3})$/ do
+  msg channel, "#{nick}: #{IP2GEO.retreive(match[0]).join(', ')}"
 end
 
 on :channel do
