@@ -13,8 +13,13 @@ on :channel, /^!site$/ do
 end
 
 on :channel, /^!start_discussion (.*)/ do
-  $topics[channel] = match[0]
-  msg channel, "The topic under discussion is now: #{$topics[channel]}"
+  if $topics[channel]
+    body = "Discussion has already been started. Please end current one before starting another."
+  else
+    $topics[channel] = match[0]
+    body = "The topic under discussion is now: #{$topics[channel]}"
+  end
+  msg channel, body
 end
 
 on :channel, /^!topic$/ do
@@ -41,8 +46,12 @@ end
 
 on :channel, /^!end_discussion$/ do
   old_topic = $topics[channel]
-  $topics[channel] = nil
-  msg channel, "The discussion about #{old_topic} has now ended"
+  unless old_topic
+    msg channel, "There is no topic under discussion at the moment"
+  else
+    $topics[channel] = nil
+    msg channel, "The discussion about #{old_topic} has now ended"
+  end
 end
 
 on :channel, /^!time (.*)/ do
