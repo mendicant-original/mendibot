@@ -3,7 +3,7 @@ require 'rexml/document'
 
 module IP2GEO
   def self.retreive(ip)
-    xml = RestClient.get("ipinfodb.com/ip_query.php?ip=#{ip}&timezone=false")
+    xml = RestClient.get("api.ipinfodb.com/v2/ip_query.php?key=#{IP2GEO_API_KEY}&ip=#{ip}&timezone=false")
     doc = REXML::Document.new(xml)
     lat = doc.elements.to_a('/Response/Latitude').first.text
     lng = doc.elements.to_a('/Response/Longitude').first.text
