@@ -1,0 +1,23 @@
+configure do |c|
+ c.nick    = ""
+ c.password = ""
+ c.server  = "irc.freenode.net"
+ c.port    = 6667
+end
+
+on :connect do
+ join "#rmu"
+end
+
+# Register to get an API key (http://ipinfodb.com/register.php)
+#
+IP2GEO_API_KEY = ""
+
+# For connecting to university-web (https://github.com/rmu/university-web)
+# 
+RMU_SEEKRIT = ""
+
+def service
+ @service ||= RestClient::Resource.new("UNIVERSITY-WEB-URL",
+                                       "AUTH_USER", "AUTH_PASS")
+end
