@@ -1,0 +1,18 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    isaac (0.2.6)
+    json (1.5.1)
+    mime-types (1.16)
+    minitest (2.0.2)
+    rest-client (1.6.1)
+      mime-types (>= 1.16)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  isaac
+  json
+  minitest
+  rest-client

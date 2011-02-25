@@ -1,11 +1,15 @@
 require 'rubygems'
+require 'bundler/setup'
 require 'isaac'
-require "#{File.dirname(__FILE__)}/bot_config"
 require 'rest-client'
 require 'json'
-require 'date'
-require 'time'
-require "#{File.dirname(__FILE__)}/lib/ip2geo"
+
+#require "#{File.dirname(__FILE__)}/bot_config"
+require_relative 'bot_config'
+
+["ip2geo","timely"].each do |plugs|
+  require_relative "lib/#{plugs}"
+end
 
 $topics = {}
 
@@ -33,26 +37,12 @@ on :channel, /^!end_discussion$/ do
   msg channel, "The discussion about #{old_topic} has now ended"
 end
 
+# Shifts timezones
+#
+# Example:
+#   !time 17h UTC to EST
 on :channel, /^!time (.*)/ do
-  a = match[0].split(" ").to_a
-
-  time = Time.parse(a[0])
-  from = a[1]
-  to   = a[3]
-  
-  response = ""
-  begin
-    from = time + Time.zone_offset(from)
-    to   = time + Time.zone_offset(to)
-    
-    puts response << "#{from.strftime("%a %b %d %H:%M")} -> #{to.strftime("%a %b %d %H:%M")}"
-  rescue Exception => e
-    puts e.message
-  end
-  
-  response = "Invalid time zone or format." if response.empty?
-
-  msg channel, response
+  msg channel, Timely.parse(match[0])
 end
 
 on :channel, /^!ip2geo help$/ do
@@ -63,6 +53,7 @@ on :channel, /^!ip2geo (\d{1,3}\.\d{1,3}\.\d{1,3}.\d{1,3})$/ do
   msg channel, "#{nick}: #{IP2GEO.retreive(match[0]).join(', ')}"
 end
 
+# Sends message to logging web service
 on :channel do
   msg = { 
     :channel     => channel, 
