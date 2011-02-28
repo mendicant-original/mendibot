@@ -15,6 +15,7 @@ module Mendibot
         c.server          = opts[:server]
         c.port            = opts[:port]
         c.nick            = opts[:nick]
+        c.password        = opts[:password] if opts[:password]
         c.channels        = opts[:channels]
         c.plugins.plugins = opts[:plugins]
       end
@@ -47,6 +48,7 @@ module Mendibot
       nick:     Mendibot::Config::NICK,
       channels: Mendibot::Config::CHANNELS,
       plugins:  Mendibot::Config::PLUGINS,
+      password: Mendibot::Config::PASSWORD
     }.merge(options)
   end
 

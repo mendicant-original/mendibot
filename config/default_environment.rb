@@ -15,6 +15,7 @@ module Mendibot
     SERVER   = "irc.freenode.net"
     PORT     = 6667
     NICK     = "mendibot"
+    PASSWORD = nil
     CHANNELS = ["#rmu"]
     PLUGINS  = [ Mendibot::Plugins::Default,
                  Mendibot::Plugins::Timezone,
