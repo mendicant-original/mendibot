@@ -1,10 +1,16 @@
 GEM
   remote: http://rubygems.org/
   specs:
+<<<<<<< HEAD
     isaac (0.2.6)
     json (1.5.1)
     mime-types (1.16)
     minitest (2.0.2)
+=======
+    cinch (1.1.1)
+    daemons (1.1.0)
+    mime-types (1.16)
+>>>>>>> 944de870df3f32f31834061b96f352990a45daaf
     rest-client (1.6.1)
       mime-types (>= 1.16)
 
@@ -12,7 +18,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+<<<<<<< HEAD
   isaac
   json
   minitest
+=======
+  cinch
+  daemons
+>>>>>>> 944de870df3f32f31834061b96f352990a45daaf
   rest-client
