@@ -16,7 +16,7 @@ module Mendibot
       end
 
       def convert(m, time, from, to)
-        time = Time.parse time
+        time = Time.parse("#{time} #{from}").utc
         from = time + Time.zone_offset(from)
         to   = time + Time.zone_offset(to)
 
