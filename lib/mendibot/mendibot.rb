@@ -26,8 +26,7 @@ module Mendibot
             :channel     => m.channel, 
             :handle      => m.user, 
             :body        => m.message.encode("UTF-8", :invalid => :replace, :undef => :replace), 
-            :recorded_at => DateTime.now,
-            :topic       => Mendibot::TOPICS[m.channel]
+            :recorded_at => DateTime.now
           }.to_json
 
           Mendibot::Config::SERVICE["/chat/messages.json"].post(:message => msg)
