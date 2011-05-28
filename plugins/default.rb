@@ -20,35 +20,37 @@ module Mendibot
       end
 
       def start_discussion(m, topic)
-        Mendibot::TOPICS[m.channel] = topic
-        m.reply "The topic under discussion is now '#{topic}'"
+        msg = {
+          :channel => m.channel,
+          :topic   => topic,
+          :action  => 'start'
+        }.to_json
+
+        m.reply Mendibot::Config::SERVICE["/chat/meetings.json"].post(:message => msg)
       rescue Exception => e
         m.reply "Failed to start discussion"
         bot.logger.debug e.message
       end
 
       def end_discussion(m)
-        topic = Mendibot::TOPICS[m.channel]
-        Mendibot::TOPICS[m.channel] = nil
+        msg = {
+          :channel => m.channel,
+          :action  => 'end'
+        }.to_json
 
-        if topic
-          m.reply "The topic about '#{topic}' has now ended"
-        else
-          m.reply "There is no topic under discussion at the moment"
-        end
+        m.reply Mendibot::Config::SERVICE["/chat/meetings.json"].post(:message => msg)
       rescue Exception => e
         m.reply "Failed to end discussion"
         bot.logger.debug e.message
       end
 
       def topic(m)
-        topic = Mendibot::TOPICS[m.channel]
+        msg = {
+          :channel => m.channel,
+          :action  => 'current'
+        }.to_json
 
-        if topic
-          m.reply "The current topic under discussion is '#{topic}'"
-        else
-          m.reply "There is no topic under discussion at the moment"
-        end
+        m.reply topic = Mendibot::Config::SERVICE["/chat/meetings.json"].post(:message => msg)
       rescue Exception => e
         m.reply "Failed to retreive topic"
         bot.logger.debug e.message
