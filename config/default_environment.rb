@@ -26,6 +26,7 @@ module Mendibot
 
     IP2GEO_API_KEY = nil
 
+    USE_UW = false
   end
 
 end
