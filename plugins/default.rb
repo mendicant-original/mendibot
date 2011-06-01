@@ -20,21 +20,28 @@ module Mendibot
       end
 
       def start_discussion(m, topic)
-        Mendibot::TOPICS[m.channel] = topic
-        m.reply "The topic under discussion is now '#{topic}'"
+        if Mendibot::Config::USE_UW
+           m.reply api_call(:channel => m.channel, :topic => topic, :action => 'start')
+        else
+          Mendibot::TOPICS[m.channel] = topic
+          m.reply "The topic under discussion is now '#{topic}'"
+        end
       rescue Exception => e
         m.reply "Failed to start discussion"
         bot.logger.debug e.message
       end
 
       def end_discussion(m)
-        topic = Mendibot::TOPICS[m.channel]
-        Mendibot::TOPICS[m.channel] = nil
-
-        if topic
-          m.reply "The topic about '#{topic}' has now ended"
+        if Mendibot::Config::USE_UW
+          m.reply api_call(:channel => m.channel, :action => 'end')
         else
-          m.reply "There is no topic under discussion at the moment"
+          topic = Mendibot::TOPICS[m.channel]
+          Mendibot::TOPICS[m.channel] = nil
+          if topic
+            m.reply "The topic about '#{topic}' has now ended"
+          else
+            m.reply "There is no topic under discussion at the moment"
+          end
         end
       rescue Exception => e
         m.reply "Failed to end discussion"
@@ -42,16 +49,24 @@ module Mendibot
       end
 
       def topic(m)
-        topic = Mendibot::TOPICS[m.channel]
-
-        if topic
-          m.reply "The current topic under discussion is '#{topic}'"
+        if Mendibot::Config::USE_UW
+          m.reply api_call(:channel => m.channel, :action => 'current')
         else
-          m.reply "There is no topic under discussion at the moment"
+          topic = Mendibot::TOPICS[m.channel]
+          if topic
+            m.reply "The current topic under discussion is '#{topic}'"
+          else
+            m.reply "There is no topic under discussion at the moment"
+          end
         end
       rescue Exception => e
         m.reply "Failed to retreive topic"
         bot.logger.debug e.message
+      end
+
+      private
+      def api_call(message)
+        Mendibot::Config::SERVICE["/chat/meetings.json"].post(:message => message.to_json)
       end
 
     end
