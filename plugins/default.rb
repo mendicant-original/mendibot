@@ -61,7 +61,7 @@ module Mendibot
       private
 
       def reply_with_topic_link(m, topic)
-        url = Mendibot::Config::UNIVERSITY_WEB_URL
+        url = Mendibot::Config.university_web_url
         url << "&channel=#{URI.encode(m.channel.name)}"
         url << "&topic=#{URI.encode(topic)}"
         url << "&full_log=true"

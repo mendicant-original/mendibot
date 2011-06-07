@@ -11,6 +11,7 @@ module Mendibot
   end
 
   module Config
+    extend self
 
     SERVER   = "irc.freenode.net"
     PORT     = 6667
@@ -27,6 +28,10 @@ module Mendibot
     IP2GEO_API_KEY = nil
 
     UNIVERSITY_WEB_URL = "http://university.rubymendicant.com/chat/messages?"
+
+    def university_web_url
+      UNIVERSITY_WEB_URL.dup
+    end
   end
 
 end
