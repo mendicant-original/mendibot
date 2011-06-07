@@ -1,5 +1,6 @@
 require 'cinch'
 require 'date'
+require 'uri'
 
 module Mendibot
 
@@ -22,6 +23,7 @@ module Mendibot
       def start_discussion(m, topic)
         Mendibot::TOPICS[m.channel] = topic
         m.reply "The topic under discussion is now '#{topic}'"
+        reply_with_topic_link(m, topic)
       rescue Exception => e
         m.reply "Failed to start discussion"
         bot.logger.debug e.message
@@ -33,6 +35,7 @@ module Mendibot
 
         if topic
           m.reply "The topic about '#{topic}' has now ended"
+          reply_with_topic_link(m, topic)
         else
           m.reply "There is no topic under discussion at the moment"
         end
@@ -46,6 +49,7 @@ module Mendibot
 
         if topic
           m.reply "The current topic under discussion is '#{topic}'"
+          reply_with_topic_link(m, topic)
         else
           m.reply "There is no topic under discussion at the moment"
         end
@@ -54,6 +58,19 @@ module Mendibot
         bot.logger.debug e.message
       end
 
+      private
+
+      def reply_with_topic_link(m, topic)
+        url = Mendibot::Config::UNIVERSITY_WEB_URL
+        url << "&channel=#{URI.encode(m.channel.name)}"
+        url << "&topic=#{URI.encode(topic)}"
+        url << "&full_log=true"
+
+        m.reply "Transcript link: #{url}"
+      rescue Exception => e
+        m.reply "Failed to generate topic link"
+        bot.logger.debug e.message
+      end
     end
 
   end
