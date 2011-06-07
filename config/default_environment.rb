@@ -30,10 +30,8 @@ module Mendibot
     # Set to print the log URL when ending discussions
     # Example: "http://mylogz.com/messages?"
     #
-    LOG_URL = nil
-
     def log_url
-      LOG_URL.dup unless LOG_URL.nil?
+      nil
     end
 
   end
