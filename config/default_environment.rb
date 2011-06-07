@@ -26,7 +26,11 @@ module Mendibot
 
     IP2GEO_API_KEY = nil
 
-    UNIVERSITY_WEB_URL = "http://university.rubymendicant.com/chat/messages?"
+    # Set to print the log URL when ending discussions
+    # Example: "http://mylogz.com/messages?"
+    #
+    LOG_URL = nil
+
   end
 
 end
