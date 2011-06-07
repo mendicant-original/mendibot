@@ -11,6 +11,7 @@ module Mendibot
   end
 
   module Config
+    extend self
 
     SERVER   = "irc.freenode.net"
     PORT     = 6667
@@ -30,6 +31,10 @@ module Mendibot
     # Example: "http://mylogz.com/messages?"
     #
     LOG_URL = nil
+
+    def log_url
+      LOG_URL.dup unless LOG_URL.nil?
+    end
 
   end
 
