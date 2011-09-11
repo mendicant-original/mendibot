@@ -10,6 +10,7 @@ module Mendibot
 
       match /time help/,               method: :help
       match /time (.*) (.*) to (.*)/i, method: :convert
+      match /time/,                    method: :invalid_syntax
 
       def help(m)
         m.reply "#{m.user.nick}: <!time (time) (from) to (to)> converts the time from one timezone to another"
@@ -28,6 +29,11 @@ module Mendibot
 
       def format(t)
         t.strftime("%a %b %d %H:%M")
+      end
+
+      def invalid_syntax(m)
+        m.reply "#{m.user.nick}: Invalid syntax."
+        help(m)
       end
 
     end
