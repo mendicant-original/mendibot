@@ -8,8 +8,8 @@ module Mendibot
     class Timezone
       include Cinch::Plugin
 
-      match /time help/,              method: :help
-      match /time (.*) (.*) to (.*)/, method: :convert
+      match /time help/,               method: :help
+      match /time (.*) (.*) to (.*)/i, method: :convert
 
       def help(m)
         m.reply "#{m.user.nick}: <!time (time) (from) to (to)> converts the time from one timezone to another"
