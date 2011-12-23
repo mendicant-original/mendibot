@@ -15,7 +15,7 @@ module Mendibot
       match /topic/,                  method: :topic
 
       def site(m)
-        m.reply "#{m.user.nick}: http://university.rubymendicant.com"
+        m.reply "#{m.user.nick}: http://mendicantuniversity.org"
       rescue Exception => e
         bot.logger.debug e.message
       end
