@@ -11,6 +11,8 @@ God.watch do |w|
   w.start_grace   = 30.seconds
   w.restart_grace = 30.seconds
   w.pid_file      = "#{PROJECT_ROOT}/tmp/pids/mendibot.rb.pid"
+  w.log           = "#{PROJECT_ROOT}/log/god.log"
+  w.err_log       = "#{PROJECT_ROOT}/log/god.errors.log"
 
   w.behavior(:clean_pid_file)
 
