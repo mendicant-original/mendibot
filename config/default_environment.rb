@@ -1,8 +1,3 @@
-require_relative '../plugins/default'
-require_relative '../plugins/timezone'
-require_relative '../plugins/ip2geo'
-require_relative '../plugins/new_room'
-
 module Mendibot
 
   class DummyService
@@ -19,10 +14,6 @@ module Mendibot
     NICK     = "mendibot"
     PASSWORD = nil
     CHANNELS = ["#rmu"]
-    PLUGINS  = [ Mendibot::Plugins::Default,
-                 Mendibot::Plugins::Timezone,
-                 Mendibot::Plugins::IP2Geo,
-               ]
 
     SERVICE = Hash.new{|h,k| h[k] = DummyService.new}
 

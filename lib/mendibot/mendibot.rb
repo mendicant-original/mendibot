@@ -2,6 +2,11 @@ require 'cinch'
 require 'json'
 require 'time'
 
+require_relative '../../plugins/default'
+require_relative '../../plugins/timezone'
+require_relative '../../plugins/ip2geo'
+require_relative '../../plugins/new_room'
+
 module Mendibot
   extend self
 
@@ -22,10 +27,10 @@ module Mendibot
 
       on :channel do |m|
         begin
-          msg = { 
-            :channel     => m.channel, 
-            :handle      => m.user, 
-            :body        => m.message.encode("UTF-8", :invalid => :replace, :undef => :replace), 
+          msg = {
+            :channel     => m.channel,
+            :handle      => m.user,
+            :body        => m.message.encode("UTF-8", :invalid => :replace, :undef => :replace),
             :recorded_at => DateTime.now,
             :topic       => Mendibot::TOPICS[m.channel]
           }.to_json
@@ -47,7 +52,11 @@ module Mendibot
       port:     Mendibot::Config::PORT,
       nick:     Mendibot::Config::NICK,
       channels: Mendibot::Config::CHANNELS,
-      plugins:  Mendibot::Config::PLUGINS,
+      plugins:  [ Mendibot::Plugins::Default,
+                  Mendibot::Plugins::Timezone,
+                  Mendibot::Plugins::IP2Geo,
+                  Mendibot::Plugins::NewRoom
+                 ],
       password: Mendibot::Config::PASSWORD
     }.merge(options)
   end
