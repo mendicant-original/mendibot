@@ -23,6 +23,7 @@ after 'deploy:update_code' do
 end
 
 after 'deploy' do
+  run "sudo god load #{release_path}/config/mendibot.god"
   run "sudo god start mendibot"
 end
 
