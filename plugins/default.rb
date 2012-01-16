@@ -14,6 +14,29 @@ module Mendibot
       match /end_discussion/,         method: :end_discussion
       match /topic/,                  method: :topic
 
+      $abilities = {}
+
+      def self.can method, filter
+        method = method.to_s
+        hook :pre, method: :check_ability
+        $abilities[method] ||= []
+        $abilities[method] << filter
+      end
+
+      def check_ability m
+        _, command = m.params.last.match(/^!(\S+)/).to_a
+        $abilities[command].each do |filter|
+          send(filter, m)
+        end
+      end
+
+      can :site, :filter_implementation
+
+      def filter_implementation m
+        m.reply "#{m.user.nick}: U CANT DO THAT! BOUNCE PUNK!"
+        raise
+      end
+
       def site(m)
         m.reply "#{m.user.nick}: http://mendicantuniversity.org"
       rescue Exception => e
