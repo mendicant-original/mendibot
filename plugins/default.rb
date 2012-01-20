@@ -8,7 +8,7 @@ module Mendibot
 
     class Default
       include Cinch::Plugin
-      include Mendibot::Plugins::Acl
+      include Mendibot::Plugins::ACL
 
       match /site/,                   method: :site
       match /start_discussion (.+)$/, method: :start_discussion
@@ -18,10 +18,10 @@ module Mendibot
       can :start_discussion, :staff_only
       can :end_discussion, :staff_only
 
-      def staff_only m
-        unless Mendibot::Config::STAFF_MEMBERS.include? m.user.nick
-          m.reply "#{m.user.nick}: Only staff members can issue this command."
-          raise
+      def staff_only(message)
+        unless Config.is_staff?(message.user.nick)
+          message.reply "#{message.user.nick}: Only staff members can issue this command."
+          raise ACL::PermissionDenied
         end
       end
 

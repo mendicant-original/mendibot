@@ -1,6 +1,8 @@
 module Mendibot
   module Plugins
-    module Acl
+    module ACL
+
+      PermissionDenied = Class.new(StandardError)
 
       def self.included(base)
         base.extend ClassMethods
@@ -11,20 +13,34 @@ module Mendibot
           @abilities ||= {}
         end
 
-        def can method, filter
-          hook :pre, method: :check_ability
+        def can(method, filter)
+          hook(:pre, method: :check_ability)
           method = method.to_s
           abilities[method] ||= []
           abilities[method] << filter
         end
       end
 
-      def check_ability m
-        _, command = m.params.last.match(/^!(\S+)/).to_a
-        return unless self.class.abilities.keys.include?(command)
-        self.class.abilities[command].each do |filter|
-          send(filter, m)
+      def check_ability(message)
+        command = extract_command(message)
+        return unless valid_command?(command)
+        filters_for(command).each do |filter|
+          send(filter, message)
         end
+      end
+
+      private
+
+      def extract_command(message)
+        message.params.last.match(/^!(\S+)/).to_a.last
+      end
+
+      def valid_command?(command)
+        self.class.abilities.has_key?(command)
+      end
+
+      def filters_for(command)
+        self.class.abilities[command]
       end
     end
   end
