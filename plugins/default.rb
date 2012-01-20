@@ -8,33 +8,21 @@ module Mendibot
 
     class Default
       include Cinch::Plugin
+      include Mendibot::Plugins::Acl
 
       match /site/,                   method: :site
       match /start_discussion (.+)$/, method: :start_discussion
       match /end_discussion/,         method: :end_discussion
       match /topic/,                  method: :topic
 
-      $abilities = {}
+      can :start_discussion, :staff_only
+      can :end_discussion, :staff_only
 
-      def self.can method, filter
-        method = method.to_s
-        hook :pre, method: :check_ability
-        $abilities[method] ||= []
-        $abilities[method] << filter
-      end
-
-      def check_ability m
-        _, command = m.params.last.match(/^!(\S+)/).to_a
-        $abilities[command].each do |filter|
-          send(filter, m)
+      def staff_only m
+        unless Mendibot::Config::STAFF_MEMBERS.include? m.user.nick
+          m.reply "#{m.user.nick}: Only staff members can issue this command."
+          raise
         end
-      end
-
-      can :site, :filter_implementation
-
-      def filter_implementation m
-        m.reply "#{m.user.nick}: U CANT DO THAT! BOUNCE PUNK!"
-        raise
       end
 
       def site(m)

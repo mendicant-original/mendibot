@@ -21,6 +21,8 @@ module Mendibot
 
     NEW_ROOMS = {}
 
+    STAFF_MEMBERS = %w{ seacreature semmons99 }
+
     # Set to print the log URL when ending discussions
     # Example: "http://mylogz.com/messages?"
     #
