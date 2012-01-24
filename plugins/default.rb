@@ -15,12 +15,12 @@ module Mendibot
       match /end_discussion/,         method: :end_discussion
       match /topic/,                  method: :topic
 
-      can :start_discussion, :staff_only
-      can :end_discussion, :staff_only
+      can :start_discussion, :operators_only
+      can :end_discussion, :operators_only
 
-      def staff_only(message)
-        unless Config.is_staff?(message.user.nick)
-          message.reply "#{message.user.nick}: Only staff members can issue this command."
+      def operators_only(message)
+        unless is_operator?(message.user.nick)
+          message.reply "#{message.user.nick}: Only operators can issue this command."
           raise ACL::PermissionDenied
         end
       end
@@ -70,6 +70,10 @@ module Mendibot
       end
 
       private
+
+      def is_operator?(username)
+        Config::OPERATORS.include? username
+      end
 
       def reply_with_topic_link(m, topic)
         return unless Mendibot::Config.log_url
