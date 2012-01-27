@@ -21,6 +21,10 @@ module Mendibot
     NEW_ROOMS = nil
     HUNSPELL_DICT = '/usr/share/hunspell/en_US'
 
+    NEW_ROOMS = {}
+
+    OPERATORS = %w{ USERNAME_1 USERNAME_2 USERNAME_3 }
+
     # Set to print the log URL when ending discussions
     # Example: "http://mylogz.com/messages?"
     #

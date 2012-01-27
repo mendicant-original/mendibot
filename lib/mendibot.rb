@@ -1,3 +1,4 @@
+require_relative '../plugins/acl'
 require_relative '../plugins/default'
 require_relative '../plugins/timezone'
 require_relative '../plugins/ip2geo'

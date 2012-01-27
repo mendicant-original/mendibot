@@ -8,11 +8,22 @@ module Mendibot
 
     class Default
       include Cinch::Plugin
+      include Mendibot::Plugins::ACL
 
       match /site/,                   method: :site
       match /start_discussion (.+)$/, method: :start_discussion
       match /end_discussion/,         method: :end_discussion
       match /topic/,                  method: :topic
+
+      can :start_discussion, :operators_only
+      can :end_discussion, :operators_only
+
+      def operators_only(message)
+        unless is_operator?(message.user.nick)
+          message.reply "#{message.user.nick}: Only operators can issue this command."
+          raise ACL::PermissionDenied
+        end
+      end
 
       def site(m)
         m.reply "#{m.user.nick}: http://mendicantuniversity.org"
@@ -59,6 +70,10 @@ module Mendibot
       end
 
       private
+
+      def is_operator?(username)
+        Config::OPERATORS.include? username
+      end
 
       def reply_with_topic_link(m, topic)
         return unless Mendibot::Config.log_url
