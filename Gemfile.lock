@@ -9,7 +9,10 @@ GEM
       net-ssh-gateway (>= 1.1.0)
     cinch (1.1.1)
     daemons (1.1.0)
+    ffi (1.0.11)
     highline (1.6.9)
+    hunspell-ffi (0.1.2)
+      ffi (>= 0.6.3)
     mime-types (1.16)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
@@ -28,4 +31,5 @@ DEPENDENCIES
   capistrano
   cinch
   daemons
+  hunspell-ffi
   rest-client
