@@ -18,6 +18,8 @@ module Mendibot
     SERVICE = Hash.new{|h,k| h[k] = DummyService.new}
 
     IP2GEO_API_KEY = nil
+    NEW_ROOMS = nil
+    HUNSPELL_DICT = '/usr/share/hunspell/en_US'
 
     # Set to print the log URL when ending discussions
     # Example: "http://mylogz.com/messages?"
