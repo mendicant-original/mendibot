@@ -50,7 +50,8 @@ module Mendibot
       plugins:  [ Mendibot::Plugins::Default,
                   Mendibot::Plugins::Timezone,
                   Mendibot::Plugins::IP2Geo,
-                  Mendibot::Plugins::NewRoom
+                  Mendibot::Plugins::NewRoom,
+                  Mendibot::Plugins::Spell
                  ],
       password: Mendibot::Config::PASSWORD
     }.merge(options)
