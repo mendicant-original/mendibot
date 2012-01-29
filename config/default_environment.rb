@@ -25,6 +25,10 @@ module Mendibot
 
     OPERATORS = %w{ USERNAME_1 USERNAME_2 USERNAME_3 }
 
+    # Community RSS feed location and polling interval in seconds
+    RSS_URL = 'http://community.mendicantuniversity.org/articles.rss'
+    RSS_INTERVAL = 900
+
     # Set to print the log URL when ending discussions
     # Example: "http://mylogz.com/messages?"
     #
