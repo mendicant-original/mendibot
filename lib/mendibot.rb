@@ -4,6 +4,6 @@ require_relative '../plugins/timezone'
 require_relative '../plugins/ip2geo'
 require_relative '../plugins/new_room'
 require_relative '../plugins/spell'
-require_relative '../plugins/rss'
+require_relative '../plugins/rss_relay'
 
 require_relative 'mendibot/mendibot'

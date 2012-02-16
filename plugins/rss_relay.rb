@@ -4,16 +4,16 @@ require 'rss'
 
 module Mendibot
   module Plugins
-    class RSS
+    class RSSRelay
       include Cinch::Plugin
 
-      timer Mendibot::Config::RSS[:interval], method: :pull
+      timer Mendibot::Config::RSS_SETTINGS[:interval], method: :pull
 
       def pull
-        Mendibot::Config::RSS[:feeds].each do |feed|
+        Mendibot::Config::RSS_SETTINGS[:feeds].each do |feed|
           open(feed[:url]) do |rss|
             feed     = ::RSS::Parser.parse(rss)
-            min_time = Time.now - Mendibot::Config::RSS[:interval]
+            min_time = Time.now - Mendibot::Config::RSS_SETTINGS[:interval]
 
             feed.items.each do |item|
               if item.pubDate >= min_time
