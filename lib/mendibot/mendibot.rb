@@ -52,7 +52,7 @@ module Mendibot
                   Mendibot::Plugins::IP2Geo,
                   Mendibot::Plugins::NewRoom,
                   Mendibot::Plugins::Spell,
-                  Mendibot::Plugins::CommunityRSS
+                  Mendibot::Plugins::RSSRelay
                  ],
       password: Mendibot::Config::PASSWORD
     }.merge(options)
