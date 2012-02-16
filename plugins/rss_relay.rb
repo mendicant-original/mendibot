@@ -16,7 +16,7 @@ module Mendibot
             min_time = Time.now - Mendibot::Config::RSS_SETTINGS[:interval]
 
             data.items.each do |item|
-              next unless item.respond_to?(:pubDate)
+              next unless item.respond_to?(:pubDate) && !item.pubDate.nil?
 
               if item.pubDate >= min_time
                 feed[:channels].each do |chan|
