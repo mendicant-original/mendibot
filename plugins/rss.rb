@@ -12,7 +12,7 @@ module Mendibot
       def pull
         Mendibot::Config::RSS[:feeds].each do |feed|
           open(feed[:url]) do |rss|
-            feed     = RSS::Parser.parse(rss)
+            feed     = ::RSS::Parser.parse(rss)
             min_time = Time.now - Mendibot::Config::RSS[:interval]
 
             feed.items.each do |item|
