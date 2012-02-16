@@ -8,11 +8,14 @@ GEM
       net-ssh (>= 2.0.14)
       net-ssh-gateway (>= 1.1.0)
     cinch (1.1.1)
+    coderay (0.9.8)
     daemons (1.1.0)
     ffi (1.0.11)
     highline (1.6.9)
     hunspell-ffi (0.1.2)
       ffi (>= 0.6.3)
+    method_source (0.6.7)
+      ruby_parser (>= 2.3.1)
     mime-types (1.16)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
@@ -21,8 +24,17 @@ GEM
     net-ssh (2.2.1)
     net-ssh-gateway (1.1.0)
       net-ssh (>= 1.99.1)
+    pry (0.9.7.4)
+      coderay (~> 0.9.8)
+      method_source (~> 0.6.7)
+      ruby_parser (>= 2.3.1)
+      slop (~> 2.1.0)
     rest-client (1.6.1)
       mime-types (>= 1.16)
+    ruby_parser (2.3.1)
+      sexp_processor (~> 3.0)
+    sexp_processor (3.0.10)
+    slop (2.1.0)
 
 PLATFORMS
   ruby
@@ -32,4 +44,5 @@ DEPENDENCIES
   cinch
   daemons
   hunspell-ffi
+  pry
   rest-client
