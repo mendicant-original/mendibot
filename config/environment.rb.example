@@ -26,7 +26,7 @@ module Mendibot
     OPERATORS = %w{ USERNAME_1 USERNAME_2 USERNAME_3 }
 
     # RSS Feed Configuration
-    RSS = {
+    RSS_SETTINGS = {
       interval: 900,
       feeds: [
         {
