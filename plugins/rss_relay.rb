@@ -11,7 +11,14 @@ module Mendibot
       end
 
       Mendibot::Config::RSS_SETTINGS[:feeds].each do |feed|
-        timer feed_interval(feed), method: :pull
+        method_name = "#{feed[:name]}_pull"
+
+        define_method method_name do
+          data = Feedzirra::Feed.fetch_and_parse(feed[:url])
+          process_items(feed, data.entries)
+        end
+
+        timer feed_interval(feed), method: method_name
       end
 
       def process_items(feed, items)
@@ -35,15 +42,6 @@ module Mendibot
         bot.logger.debug e.message
       end
 
-      def pull
-        Mendibot::Config::RSS_SETTINGS[:feeds].each do |feed|
-          data = Feedzirra::Feed.fetch_and_parse(feed[:url])
-          process_items(feed, data.entries)
-        end
-
-      rescue Exception => e
-        bot.logger.debug e.message
-      end
     end
   end
 end
