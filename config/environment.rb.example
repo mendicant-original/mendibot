@@ -27,9 +27,9 @@ module Mendibot
 
     # RSS Feed Configuration
     RSS_SETTINGS = {
-      interval: 900,
       feeds: [
         {
+          interval: 900,
               name: "example feed",
                url: "http://www.example.com/feed.rss",
           channels: ["#channel-1", "#channel-2"]
