@@ -1,39 +1,34 @@
 require 'cinch'
-require 'feedzirra'
+require 'open-uri'
+require 'rss'
 
 module Mendibot
   module Plugins
     class RSSRelay
       include Cinch::Plugin
 
-      def self.feed_interval(feed)
-        feed[:interval] || Mendibot::Config::RSS_SETTINGS[:interval]
-      end
-
       Mendibot::Config::RSS_SETTINGS[:feeds].each do |feed|
         method_name = "#{feed[:name]}_pull"
 
         define_method method_name do
-          data = Feedzirra::Feed.fetch_and_parse(feed[:url])
-          process_items(feed, data.entries)
+          data = RSS::Parser.parse(open(feed[:url]))
+          process_items(feed, data.items)
         end
 
-        timer feed_interval(feed), method: method_name
+        timer feed[:interval], method: method_name
       end
 
       def process_items(feed, items)
-        interval = RSSRelay.feed_interval(feed)
-
         items.each do |item|
-          next unless post_time = item.published
+          next unless post_time = item.updated.content
 
-          if post_time >= Time.now - interval
-            author = item.author || 'a mysterious stranger'
+          if post_time >= Time.now - feed[:interval]
+            author = item.author.name || 'a mysterious stranger'
 
             feed[:channels].each do |chan|
               Channel(chan).send <<-MESSAGE
-  via #{feed[:name]} comes the epic saga "#{item.title}", by #{author}! #{item.url}
-  MESSAGE
+via #{feed[:name]} comes the epic saga "#{item.title.content}", by #{author}! #{item.link.href}
+MESSAGE
             end
           end
         end
