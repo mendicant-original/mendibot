@@ -23,7 +23,7 @@ module Mendibot
           next unless post_time = item.updated.content
 
           if post_time >= Time.now - feed[:interval]
-            author = item.author.name || 'a mysterious stranger'
+            author = item.author.name.content || 'a mysterious stranger'
 
             feed[:channels].each do |chan|
               Channel(chan).send <<-MESSAGE
