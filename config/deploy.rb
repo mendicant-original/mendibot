@@ -1,7 +1,7 @@
 require 'bundler/capistrano'
 
 set :application, "mendibot"
-set :repository,  "git://github.com/mendicant-university/mendibot.git"
+set :repository,  "git://github.com/mendicant-original/mendibot.git"
 
 set :scm, :git
 set :deploy_to, "/var/rapp/#{application}"
@@ -12,7 +12,7 @@ set :use_sudo, false
 set :deploy_via, :remote_cache
 
 set :branch, "master"
-server "mendicantuniversity.org", :app, :web, :db, :primary => true
+server "173.246.46.66", :app, :web, :db, :primary => true
 
 before 'deploy:update_code' do
   run "sudo god stop mendibot"
