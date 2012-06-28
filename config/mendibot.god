@@ -1,8 +1,7 @@
 PROJECT_ROOT = File.dirname(File.dirname(__FILE__))
 
 God.watch do |w|
-  script          = "BUNDLE_GEMFILE=#{PROJECT_ROOT}/Gemfile " +
-                    "bundle exec #{PROJECT_ROOT}/bin/mendibot_daemon.rb"
+  script          = "bundle exec #{PROJECT_ROOT}/bin/mendibot_daemon.rb"
   w.name          = "mendibot"
   w.group         = "mendicant"
   w.interval      = 60.seconds
@@ -14,6 +13,7 @@ God.watch do |w|
   w.pid_file      = "#{PROJECT_ROOT}/tmp/pids/mendibot.rb.pid"
   w.log           = "#{PROJECT_ROOT}/log/god.log"
   w.err_log       = "#{PROJECT_ROOT}/log/god.errors.log"
+  w.env           = { 'BUNDLE_GEMFILE' => "#{PROJECT_ROOT}/Gemfile" }
 
   w.behavior(:clean_pid_file)
 
@@ -26,6 +26,7 @@ God.watch do |w|
 
   w.lifecycle do |on|
     on.condition(:flapping) do |c|
+      c.notify       = 'jordan'
       c.to_state     = [:start, :restart]
       c.times        = 5
       c.within       = 5.minute
